@@ -21,7 +21,7 @@ function setOperator(opt){
 
 // in this DOM event i create a condition to check that once user input a operator the next time 
 // the user pressed a number button it will be assign in the second number variable
-// and assign it to the eqation of object i use jion() to remove the coma (,) so when i assign it to the object
+// and assign it to the equation of object, i use jion() to remove the coma (,) so when i assign it to the object
 // by default it is a string
 function showNum(num) {
     if(equation.operator == ""){
@@ -36,7 +36,7 @@ function showNum(num) {
 
 // i use a DOM event to trigger the rest api when the user click on the = button i will call the POST api
 // i created and pass the object where the computation will be executed
-// and after i get a response i reset the value to null and ill pass the result value to first number so 
+// and after i get a response i reset the value to "" and ill pass the result value to first number so 
 // if the user want to continue the calculation
 async function compute(){
 const res = await fetch('/api', {
@@ -55,7 +55,18 @@ const res = await fetch('/api', {
     firstNumber = []
     secondNumber = []
 }
-
+// i created a cancel DOM event to reset all the value to 0
+function cancel(){
+    firstNumber =[];
+    secondNumber = []
+    operator="";
+    equation ={
+     firstNumber,
+     secondNumber,
+     operator
+    }
+    data=""
+}
 </script>
 
 <div class="container">
@@ -65,6 +76,11 @@ const res = await fetch('/api', {
 <div class="result">{data.result !== undefined ? data.result: "" }</div>
 <div class="equation">{equation.firstNumber + equation.operator + equation.secondNumber}</div>
 
+
+<!-- simple button element -->
+<div style="display:flex; justify-content: flex-end;">
+<button on:click|preventDefault={cancel}>C</button>
+</div>
 <div>
 <button on:click|preventDefault={event=> showNum(7)}>7</button>
 <button on:click|preventDefault={event=> showNum(8)}>8</button>
